@@ -1,10 +1,39 @@
+vim.g.mapleader = ' '
+pcall(vim.cmd, "colorscheme industry")
+
+local opt = vim.opt
+opt.relativenumber = true
+opt.number = true
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.autoindent = true
+opt.smartindent = true
+opt.expandtab = false
+
+opt.smartcase = true
+opt.ignorecase = true
+opt.cursorline = true
+
+opt.backspace = "indent,eol,start"
+opt.clipboard:append("unnamedplus")
+
+opt.iskeyword:append("-")
+
+
+local keymap = vim.keymap
+
 local hop = require('hop')
-vim.keymap.set('n', '<leader>e', function() hop.hint_char2() end)
-vim.keymap.set('n', '<leader>n', function() hop.hint_lines() end)
+hop.setup({keys="neiotsradhfplu"})
+keymap.set('n', '<leader>n', function() hop.hint_char2() end)
+keymap.set('n', '<leader>t', function() hop.hint_lines() end)
 
 local telescope = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', telescope.find_files, {})
-vim.keymap.set('n', '<leader>fg', telescope.live_grep, {})
+keymap.set('n', '<leader>ff', telescope.find_files, {})
+keymap.set('n', '<leader>fg', telescope.live_grep, {})
+
+keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
+keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
+keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
 
 local cmp = require'cmp'
 cmp.setup({
@@ -22,11 +51,11 @@ cmp.setup({
 	  ['<C-f>'] = cmp.mapping.scroll_docs(4),
 	  ['<C-Space>'] = cmp.mapping.complete(),
 	  ['<C-e>'] = cmp.mapping.abort(),
-	  ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+	  ['<CR>'] = cmp.mapping.confirm({ select = true }),
 	}),
 	sources = cmp.config.sources({
 	  { name = 'nvim_lsp' },
-	  { name = 'luasnip' }, -- For luasnip users.
+	  { name = 'luasnip' },
 	}, {
 	  { name = 'buffer' },
 	})
